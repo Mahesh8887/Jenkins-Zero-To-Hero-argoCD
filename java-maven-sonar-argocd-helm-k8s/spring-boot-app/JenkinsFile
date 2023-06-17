@@ -9,7 +9,7 @@ pipeline {
     stage('Checkout') {
       steps {
         sh 'echo passed'
-        //git branch: 'main', url: 'https://github.com/Mahesh8887/Jenkins-Zero-To-Hero-argoCD.git'
+        //git branch: 'main', url: 'https://github.com/writetoritika/Jenkins-Zero-To-Hero.git'
       }
     }
     stage('Build and Test') {
@@ -21,7 +21,7 @@ pipeline {
     }
     stage('Static Code Analysis') {
       environment {
-        SONAR_URL = "http://13.229.200.28:9000"
+        SONAR_URL = "http://18.140.53.151:9000"
       }
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'sonarqube')]) {
@@ -31,7 +31,7 @@ pipeline {
     }
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "mahesh8887/argocd-grafana:${BUILD_NUMBER}"
+        DOCKER_IMAGE = "mahesh8887/ultimate-cicd-pipeline:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
         REGISTRY_CREDENTIALS = credentials('docker-cred')
       }
@@ -53,8 +53,8 @@ pipeline {
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
-                    git config user.email "mahesh88878@gmail.com"
-                    git config user.name "Mahesh Biradar"
+                    git config user.email "maheshbiradar88878@gmail.com"
+                    git config user.name "Mahesh8887"
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
                     git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
